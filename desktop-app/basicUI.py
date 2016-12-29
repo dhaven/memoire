@@ -1,12 +1,11 @@
 import Tkinter
 import Tkconstants
 import tkFileDialog
-from client import Client
 import sys
 
 class BasicUI(Tkinter.Frame):
+
     def __init__(self, parent):
-        self.client = Client(sys.argv[1])
 
         Tkinter.Frame.__init__(self, parent, background="white")
         button_opt = {'fill': Tkconstants.BOTH, 'padx': 5, 'pady': 5}
@@ -24,7 +23,6 @@ class BasicUI(Tkinter.Frame):
 
     def askopenfile(self):
         filename = tkFileDialog.askopenfilename(**self.file_opt)
-        self.client.sendDataToServer(filename)
 
 if __name__ == '__main__':
     root = Tkinter.Tk()
