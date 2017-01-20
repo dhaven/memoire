@@ -1,0 +1,83 @@
+#:kivy 1.9
+
+Root:
+    orientation: 'vertical'
+    layout_content: layout_content
+    canvas.before:
+        Color:
+            rgba: 0.937, 0.855, 0.647, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    AnchorLayout:
+        size_hint_y: .25
+        ButBrown:
+            size_hint_x: .25
+            size_hint_y: .5
+            text: 'refresh'
+            on_release:root.refresh()
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20, 20, 20, 20
+        ScrollView:
+            size: self.size
+            do_scroll_y: True
+            canvas.before:
+                Color:
+                    rgba: 0.788, 0.717, 0.537, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            GridLayout:
+                id: layout_content
+                cols: 1
+                spacing: 10
+                size_hint_y: None
+                row_default_height: '40dp'
+                row_force_default: True
+    AnchorLayout:
+        size_hint_y: .25
+        ButBrown:
+            size_hint_x: .25
+            size_hint_y: .5
+            text: 'upload'
+            on_release: root.show_load()
+
+<ButBrown@Button>
+    background_normal: 'brown_l.jpg'
+    background_down: 'brown_p.jpg'
+
+<DownDialog>:
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: 'Download file : {} ?'.format(root.textFileName)
+
+        AnchorLayout:
+            size_hint_y: 0.2
+            BoxLayout:
+                Button:
+                    text: "Cancel"
+                    on_release: root.cancel()
+                Button:
+                    text: "Yes"
+
+
+<LoadDialog>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+        FileChooserListView:
+            id: filechooser
+
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+            Button:
+                text: "Cancel"
+                on_release: root.cancel()
+
+            Button:
+                text: "Load"
+                on_release: root.load(filechooser.path, filechooser.selection)
