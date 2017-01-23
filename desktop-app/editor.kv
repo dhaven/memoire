@@ -15,7 +15,7 @@ Root:
             size_hint_x: .25
             size_hint_y: .5
             text: 'refresh'
-            on_release:root.refresh()
+            on_release:root.refresh_thread()
     BoxLayout:
         orientation: 'vertical'
         padding: 20, 20, 20, 20
@@ -41,29 +41,14 @@ Root:
             size_hint_x: .25
             size_hint_y: .5
             text: 'upload'
-            on_release: root.show_load()
+            on_release: root.show_upload_dialog()
 
 <ButBrown@Button>
     background_normal: 'brown_l.jpg'
     background_down: 'brown_p.jpg'
 
-<DownDialog>:
-    BoxLayout:
-        orientation: 'vertical'
-        Label:
-            text: 'Download file : {} ?'.format(root.textFileName)
 
-        AnchorLayout:
-            size_hint_y: 0.2
-            BoxLayout:
-                Button:
-                    text: "Cancel"
-                    on_release: root.cancel()
-                Button:
-                    text: "Yes"
-
-
-<LoadDialog>:
+<UploadDialog>:
     BoxLayout:
         size: root.size
         pos: root.pos
@@ -80,4 +65,32 @@ Root:
 
             Button:
                 text: "Load"
-                on_release: root.load(filechooser.path, filechooser.selection)
+                on_release: root.upload((filechooser.path, filechooser.selection))
+
+<DownloadDialog>:
+    text_input: text_input
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+        FileChooserListView:
+            id: filechooser
+            on_selection: text_input.text = self.selection and self.selection[0] or ''
+
+        TextInput:
+            id: text_input
+            size_hint_y: None
+            height: 30
+            multiline: False
+            text: root.textFileName
+
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+            Button:
+                text: "Cancel"
+                on_release: root.cancel()
+
+            Button:
+                text: "Save"
+                on_release: root.download((filechooser.path,root.textFileName,text_input.text))
