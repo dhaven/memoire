@@ -1,14 +1,17 @@
 from django.http import HttpResponse
 from django.http import HttpRequest
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 import boto3
 import re
 
-
+@login_required
 def index(request):
     context = {}
     if request.method == "GET":
-        return render(request,'polls/index.html',context)
+        data = {'username':request.user.username}
+        return JsonResponse(data)
 
     if request.method == "POST":
         image = request.FILES['file']

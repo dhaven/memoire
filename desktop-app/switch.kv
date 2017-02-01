@@ -1,0 +1,117 @@
+#:kivy 1.9
+
+Root:
+    canvas.before:
+        Color:
+            rgba: 0.937, 0.855, 0.647, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<Login_screen@BoxLayout>:
+    orientation: 'vertical'
+    error_login: error_login
+    AnchorLayout:
+        BoxLayout:
+            canvas.before:
+                Color:
+                    rgba: 0.788, 0.717, 0.537, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            size_hint_x: .35
+            size_hint_y: .3
+            orientation: 'vertical'
+            BoxLayout:
+                orientation: 'horizontal'
+                padding: 7,7,7,7
+                Label:
+                    color: 0,0,0,1
+                    text: 'username   :'
+                TextInput:
+                    id: username
+                    multiline: False
+            BoxLayout:
+                orientation: 'horizontal'
+                padding: 7,7,7,7
+                Label:
+                    color: 0,0,0,1
+                    text: 'password   :'
+                TextInput:
+                    id: password
+                    password: True
+                    multiline:False
+            AnchorLayout:
+                padding: 5,5,5,5
+                ButBrown:
+                    size_hint_x: .5
+                    text: 'login'
+                    on_release: root.login(username.text,password.text)
+            Label:
+                id: error_login
+                text: ''
+                color: 1,0,0,1
+
+
+<HomeScreen@BoxLayout>:
+    orientation: 'vertical'
+    layout_content: layout_content
+    username: username
+    AnchorLayout:
+        size_hint_y: .1
+        anchor_x: 'right'
+        canvas.before:
+            Color:
+                rgba: 0.788, 0.717, 0.537, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        BoxLayout:
+            padding: 5,5,5,5
+            size_hint_x: .35
+            orientation: 'horizontal'
+            Label:
+                id: username
+                text: 'welcome'
+                color: 0,0,0,1
+            ButBrown:
+                size_hint_x: .5
+                text: 'logout'
+                on_release: root.logout()
+    AnchorLayout:
+        size_hint_y: .25
+        ButBrown:
+            size_hint_x: .25
+            size_hint_y: .5
+            text: 'refresh'
+            on_release:root.refresh_thread()
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20, 20, 20, 20
+        ScrollView:
+            size: self.size
+            do_scroll_y: True
+            canvas.before:
+                Color:
+                    rgba: 0.788, 0.717, 0.537, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            GridLayout:
+                id: layout_content
+                cols: 1
+                spacing: 10
+                size_hint_y: None
+                row_default_height: '40dp'
+                row_force_default: True
+    AnchorLayout:
+        size_hint_y: .25
+        ButBrown:
+            size_hint_x: .25
+            size_hint_y: .5
+            text: 'upload'
+            on_release: root.show_upload_dialog()
+
+<ButBrown@Button>
+    background_normal: 'brown_l.jpg'
+    background_down: 'brown_p.jpg'
