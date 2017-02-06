@@ -28,3 +28,23 @@ def getImage(request,filename):
     with open("/tmp/{}".format(filename), "rb") as f:
         return HttpResponse(f.read(),content_type="image/{}".format(extension))
 
+@login_required
+def list(request,username):
+    list_of_groups = []
+    list_of_images = {}
+    if request.user.username == username:
+        for group in request.user.groups.all():
+            list_of_groups.append(group.name + "/")
+        client = boto3.client('s3')
+        list_of_groups.append(username + "/")
+        for prefix in list_of_groups:
+            tempList = []
+            response = client.list_objects(Bucket="memoirebuckettest",Prefix=prefix)
+            for content in response['Contents']:
+                imageName = re.sub(prefix,"",content['Key'])
+                if imageName != "":
+                    tempList.append(imageName)
+            list_of_images[prefix] = tempList
+    return JsonResponse(list_of_images)
+
+

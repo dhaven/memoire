@@ -86,7 +86,7 @@ class Root(BoxLayout):
     #download a picture identified by "remoteFilename" and
     #save it locally as "localFilename"
     def download(self,path,remoteFilename,localFilename):
-        url = "http://ec2-34-248-82-72.eu-west-1.compute.amazonaws.com/polls/image/{}".format(remoteFilename)
+        url = "http://ec2-34-250-110-229.eu-west-1.compute.amazonaws.com/polls/image/{}".format(remoteFilename)
         s =requests.session()
         r = s.get(url,stream=True)
         with open(os.path.join(path, localFilename), 'wb') as stream:
@@ -102,7 +102,7 @@ class Root(BoxLayout):
     #upload a picture to the cloud
     def uploadPicture(self,path,filename):
         self.image = {'file': open(os.path.join(path, filename[0]), 'rb')}
-        url = "http://ec2-34-248-82-72.eu-west-1.compute.amazonaws.com/polls/"
+        url = "http://ec2-34-250-110-229.eu-west-1.compute.amazonaws.com/polls/"
         s = requests.session()
         r = s.get(url)
         headers = {'X-CSRFToken': s.cookies["csrftoken"]}
